@@ -22,23 +22,24 @@ async def get_comments(limit_comments=50, limit_top_stories=100):
     async with aiohttp.ClientSession() as session:
         top_ids = await _get_top_stories(session)
         top_ids = top_ids[:limit_top_stories]
-    
-    async with aiohttp.ClientSession() as session:
+
         tasks = []
         for story_id in top_ids:
             print(f'story: {story_id}')
             story_details_task = asyncio.create_task(_get_item_details(session, story_id))
             tasks.append(story_details_task)
-            
+
         story_details_results = await asyncio.gather(*tasks)
-        
-        #TODO shouldnt use a for here
+
         for story_details in story_details_results:
             comment_ids = story_details.get('kids', [])
             comment_ids = comment_ids[:limit_comments]
-            for comment_id in comment_ids:
-                print(f'  comment: {comment_id}')
-                comment = await _get_item_details(session, comment_id)
+
+            comment_tasks = [asyncio.create_task(_get_item_details(session, comment_id)) for comment_id in comment_ids]
+            comments = await asyncio.gather(*comment_tasks)
+
+            for comment in comments:
+                print(f'  comment: {comment.get("id")}')
                 res[story_details.get('id')].append(comment.get('text'))
 
     return res
