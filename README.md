@@ -1,6 +1,23 @@
 # assignment-ecorushome
+To run the application:
+
+intall libraries: pip install -r requirements.txt
+run: uvicorn app:app --reload
 
 
+routes:
+/top/comments
+/top/words
+/top/words/nested
+
+
+# Things I couldn't do
+The route names are a bit weird, I didn't have the time to properly setup query parameters like I wanted, but they should work.
+
+I took a lot of time to implement the async functionality, and got a bit confused for the second one, so didn't have time to implement that one.
+Routes 1 and 3 should be way faster, because I properly implemented the async functionality.
+
+I didn't have the time to clean the text from the comments, but would be a good thing to add (for both the first route and for the word count)
 
 
 # What I plan on doing in order
