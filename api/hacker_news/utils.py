@@ -41,7 +41,7 @@ async def get_comments(limit_comments=50, limit_top_stories=100):
                 comment = await _get_item_details(session, comment_id)
                 res[story_details.get('id')].append(comment.get('text'))
 
-    print(res)
+    return res
 
 async def _process_comment(comment, counter):
     if comment:
