@@ -85,7 +85,7 @@ async def get_most_used_words(limit_comments=100, limit_top_stories=30, limit_mo
 
     total_counter = sum(counter_list, Counter())
     res = total_counter.most_common(limit_most_common)
-    # print(res)
+    return res
 
 
 
@@ -125,4 +125,4 @@ async def get_most_used_words_with_nested_comments(limit_top_stories=10, limit_m
         counters = await asyncio.gather(*[_count_words_nested(story_id, session) for story_id in top_ids])
         total_counter = sum(counters, Counter())
         res = total_counter.most_common(limit_most_common)
-    # print(res)
+    return res
